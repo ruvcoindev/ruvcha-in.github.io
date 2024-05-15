@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Configuration | Ruvchain Network</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Configuration" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="End-to-end encrypted IPv6 networking to connect worlds" />
+<meta property="og:description" content="End-to-end encrypted IPv6 networking to connect worlds" />
+<link rel="canonical" href="configuration.html" />
+<meta property="og:url" content="https://ruvcha-in.github.io/configuration.html" />
+<meta property="og:site_name" content="Ruvchain Network" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Configuration" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"End-to-end encrypted IPv6 networking to connect worlds","headline":"Configuration","url":"https://ruvcha-in.github.io/configuration.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link type="application/atom+xml" rel="alternate" href="feed.xml" title="Ruvchain Network" />
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="alternate" type="application/atom+xml" title="Ruvchain Network" href="feed.xml">
+</head>
+
+<body>
+    <div class="container-lg px-3 my-5 markdown-body">
+        <div class='titleflex'>
+            <span class='logo'>
+                <a href="index.html"><img src="assets/images/logo.svg" alt="Ruvchain Network" id="logoimg" /></a>
+            </span>
+            <span class='links'>
+                
+                
+                
+                <a href="about.html">About</a>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <a href="blog.html">Blog</a>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <a href="faq.html">FAQ</a>
+                
+                
+                
+                
+                
+                <a href="implementation.html">Implementation</a>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <a href="installation.html">Installation</a>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <a href='https://github.com/ruvcoindev/ruvchain-go'>GitHub</a>
+            </span>
+        </div>
+        <h1 id="configuration">Configuration</h1>
+
+<p>Ruvchain can run in one of two modes: with a configuration file, or in autoconfigure mode.</p>
+
+<p>A static configuration file simplifies most setups as it allows you to keep the same keypair (and therefore IP address), maintain a list of peers and so on. For most users this will be the recommended configuration. Most Ruvchain distribution packages will generate a configuration file automatically.</p>
+
+<p>However, autoconfigure mode allows you to quickly start Ruvchain using sane-ish default settings, with <code class="language-plaintext highlighter-rouge">ruvchain --autoconf</code>. In this mode, Ruvchain will automatically attempt to peer with other nodes on the same subnet, but it also generates a random set of keys each time it is started, and therefore a random IP address.</p>
+
+<p>Ruvchain supports configuration in either HJSON or JSON format. HJSON is the default preferred format, as it has comments, although JSON support is available due to ease of manipulation.</p>
+
+<h2 id="generating-a-new-config-file">Generating a new config file</h2>
+
+<p>If you installed Ruvchain through one of the platform packages (i.e. macOS, Debian, RPM) then a default configuration file may already exist in <code class="language-plaintext highlighter-rouge">/etc/ruvchain.conf</code>.</p>
+
+<p>On some systems, configuration file could be located at <code class="language-plaintext highlighter-rouge">/etc/ruvchain.conf</code>.</p>
+
+<p>Otherwise, you can generate a configuration file in the following ways:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>Generate HJSON</strong>:</td>
+      <td><code class="language-plaintext highlighter-rouge">ruvchain -genconf &gt; /etc/ruvchain.conf</code></td>
+    </tr>
+    <tr>
+      <td><strong>Generate JSON</strong>:</td>
+      <td><code class="language-plaintext highlighter-rouge">ruvchain -genconf -json &gt; /etc/ruvchain.conf</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="using-a-config-file">Using a config file</h2>
+
+<p>Ruvchain can accept a configuration file either through <code class="language-plaintext highlighter-rouge">stdin</code> or by being given a path on the filesystem to a configuration file:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>Using stdin</strong>:</td>
+      <td><code class="language-plaintext highlighter-rouge">ruvchain -useconf &lt; /etc/ruvchain.conf</code></td>
+    </tr>
+    <tr>
+      <td><strong>Using file:</strong></td>
+      <td><code class="language-plaintext highlighter-rouge">ruvchain -useconffile /etc/ruvchain.conf</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="normalising-a-config-file">Normalising a config file</h2>
+
+<p>If you want to see the original format of the configuration file, or convert between HJSON and JSON formats, you can use the <code class="language-plaintext highlighter-rouge">-normaliseconf</code> option, e.g.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>Convert from HJSON to JSON</strong>:</td>
+      <td><code class="language-plaintext highlighter-rouge">ruvchain -normaliseconf -useconffile /etc/ruvchain.conf -json</code></td>
+    </tr>
+    <tr>
+      <td><strong>Convert from JSON to HJSON</strong>:</td>
+      <td><code class="language-plaintext highlighter-rouge">ruvchain -normaliseconf -useconffile /etc/ruvchain.conf</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Normalising the configuration also adds any missing configuration items with their default values. This can be useful when upgrading to a newer version of Ruvchain that adds new configuration options. Many of our distribution packages normalise the configuration automatically during upgrade.</p>
+
+<h2 id="manually-connecting-to-peers">Manually Connecting to Peers</h2>
+
+<p>Ruvchain can be configured to connect to other peers by adding entries into the <code class="language-plaintext highlighter-rouge">Peers</code> configuration section. At startup, Ruvchain will attempt to open a connection to these peers.</p>
+
+<p>A peering URI will look similar to one of the following:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>Direct TCP connection</strong>:</td>
+      <td><code class="language-plaintext highlighter-rouge">tcp://hostname:port</code></td>
+    </tr>
+    <tr>
+      <td><strong>Direct TCP+TLS connection</strong>:</td>
+      <td><code class="language-plaintext highlighter-rouge">tls://hostname:port</code></td>
+    </tr>
+    <tr>
+      <td><strong>Direct QUIC connection</strong>:</td>
+      <td><code class="language-plaintext highlighter-rouge">quic://hostname:port</code></td>
+    </tr>
+    <tr>
+      <td><strong>Via a SOCKS proxy</strong>:</td>
+      <td><code class="language-plaintext highlighter-rouge">socks://proxyhostname:proxyport/hostname:port</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>By default, only link-local auto-peering is enabled. This connects devices that are connected directly to each other at layer 2, including devices on the same LAN, directly connected by ethernet or configured to use the same ad-hoc wireless network.</p>
+
+<p>As the network uses ordinary TCP, it is possible to connect over other networks, such as the Internet or WAN links, provided that the connecting node knows the address and port to connect to and that the connection is not blocked by a NAT or firewall. If the node resides behind a NAT, then port forwarding may be required in order to accept incoming connections.</p>
+
+<p>If you are unable to find nodes in the nearby area, a best effort is made to maintain a list of <a href="https://github.com/ruvcoindev/public-peers">Public Peers</a> for new users looking to join or test the network.</p>
+
+<h2 id="advertising-a-prefix">Advertising a Prefix</h2>
+
+<p>While it is generally encouraged that nodes run the software locally, to provide end-to-end cryptographic sessions and participate in routing, this is not always practical. The device may not have the resources to run the software or may not be able to run user code. To that end, Ruvchain also provides each node with a routed <code class="language-plaintext highlighter-rouge">/64</code> subnet in addition to their IPv6 address. A node running Ruvchain that acts as a router may advertise this prefix to other devices just as they would any other ordinary IPv6 network.</p>
+
+<p>This may be best illustrated by example.
+Suppose a node has generated the address: <code class="language-plaintext highlighter-rouge">fa:1111:2222:3333:4444:5555:6666:7777</code>.
+Then the node may also use addresses from the prefix: <code class="language-plaintext highlighter-rouge">fb:1111:2222:3333::/64</code> (note the <code class="language-plaintext highlighter-rouge">fa</code> changed to <code class="language-plaintext highlighter-rouge">fb</code>, a separate <code class="language-plaintext highlighter-rouge">/8</code> is used for prefixes, but the rest of the first 64 bits are the same).</p>
+
+<p>You can find your routed subnet by running <code class="language-plaintext highlighter-rouge">ruvchainctl getSelf</code> and finding the <code class="language-plaintext highlighter-rouge">IPv6 subnet</code>. It is also logged at Ruvchain startup.</p>
+
+<p>On Linux, something like the following should be sufficient to advertise a prefix and a route to <code class="language-plaintext highlighter-rouge">fa::/7</code> using radvd to a network attached to the <code class="language-plaintext highlighter-rouge">eth0</code> interface:</p>
+
+<ol>
+  <li>
+    <p>Enable IPv6 forwarding (e.g. <code class="language-plaintext highlighter-rouge">sysctl -w net.ipv6.conf.all.forwarding=1</code> or add it to <code class="language-plaintext highlighter-rouge">sysctl.conf</code>)</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">ip addr add fa:1111:2222:3333::1/64 dev eth0</code> or similar — replacing <code class="language-plaintext highlighter-rouge">fb:1111:2222:3333::</code> with your routed subnet from <code class="language-plaintext highlighter-rouge">ruvchainctl getSelf</code> — to assign an address for the router to use in that prefix, where the LAN is reachable through <code class="language-plaintext highlighter-rouge">eth0</code></p>
+  </li>
+  <li>
+    <p>Install/run <code class="language-plaintext highlighter-rouge">radvd</code> with something like the following in <code class="language-plaintext highlighter-rouge">/etc/radvd.conf</code> — again, replacing the <code class="language-plaintext highlighter-rouge">fb:1111:2222:3333::</code> with your routed subnet:</p>
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>interface eth0
+{
+     AdvSendAdvert on;
+     prefix fb:1111:2222:3333::/64 {
+         AdvOnLink on;
+         AdvAutonomous on;
+     };
+     route fb::/7 {};
+};
+</code></pre></div>    </div>
+  </li>
+</ol>
+
+<p>Note that a <code class="language-plaintext highlighter-rouge">/64</code> prefix has fewer bits of address space available to check against the node’s ID, which in turn means hash collisions are more likely. As such, it is unwise to rely on addresses as a form of identity verification for the <code class="language-plaintext highlighter-rouge">fb::/8</code> address range.</p>
+
+<h2 id="generating-stronger-addresses-and-prefixes">Generating Stronger Addresses (and Prefixes)</h2>
+
+<p>While 128 bits is long enough to make collisions technically impractical, if not outright impossible, it’s not unreasonable to think that 64 bits may be attackable at some point if not now.
+Without going too far into the details, addresses are a truncated hash of a node’s public key, with leading <code class="language-plaintext highlighter-rouge">1</code> bits accumulated and suppressed (along with the inevitable first <code class="language-plaintext highlighter-rouge">0</code> bit).
+Thanks to the accumulator, it is possible to brute force generate keys which include more bits of the node’s ID in the node’s IPv6 address, thereby making collisions more difficult.
+This can partially mitigate the fact that IPv6 addresses are only 128 bits long, and, more importantly, that prefixes are a mere 64 bits, 16 bits of which are sacrificed to the <code class="language-plaintext highlighter-rouge">fa::/7</code> prefix and 1-byte accumulator in either case.</p>
+
+<p>In short, if you plan to advertise a prefix, or if you want your address to be exceptionally difficult to collide with, then it is strongly advised that you burn some CPU cycles generating a harder-to-collide set of keys, using the following tool:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>go run ./cmd/genkeys
+</code></pre></div></div>
+
+<p>This continually generates new keys and prints them out each time a new best set of keys is discovered.
+These keys may then be manually added to the configuration file.</p>
+
+    </div>
+    
+
+</body>
+
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>About | Ruvchain Network</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="About" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="End-to-end encrypted IPv6 networking to connect worlds" />
+<meta property="og:description" content="End-to-end encrypted IPv6 networking to connect worlds" />
+<link rel="canonical" href="about.html" />
+<meta property="og:url" content="https://ruvcha-in.github.io/about.html" />
+<meta property="og:site_name" content="Ruvchain Network" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="About" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","description":"End-to-end encrypted IPv6 networking to connect worlds","headline":"About","url":"https://ruvcha-in.github.io/about.html"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link type="application/atom+xml" rel="alternate" href="feed.xml" title="Ruvchain Network" />
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="alternate" type="application/atom+xml" title="Ruvchain Network" href="feed.xml">
+</head>
+
+<body>
+    <div class="container-lg px-3 my-5 markdown-body">
+        <div class='titleflex'>
+            <span class='logo'>
+                <a href="index.html"><img src="assets/images/logo.svg" alt="Ruvchain Network" id="logoimg" /></a>
+            </span>
+            <span class='links'>
+                
+                
+                
+                <a href="about.html">About</a>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <a href="blog.html">Blog</a>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <a href="faq.html">FAQ</a>
+                
+                
+                
+                
+                
+                <a href="implementation.html">Implementation</a>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <a href="installation.html">Installation</a>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <a href='https://github.com/ruvcoindev/ruvchain-go'>GitHub</a>
+            </span>
+        </div>
+        <h1 id="about">About</h1>
+
+<p>Ruvchain is a new and experimental compact routing scheme designed for mesh or even Internet-like networks. It is predominanently a shortest-path scheme, whereby the network will attempt to find the most direct path to the destination.</p>
+
+<p>Compared to the structured and typically hierarchial routing schemes in use today on many networks, Ruvchain is strongly decentralised, largely self-arranging and mostly self-healing. The network topology is adaptive, aiming to make use of whichever links are available in order to provide full routability between all network participants. All nodes in Ruvchain with multiple peers act as routers and will forward traffic on behalf of other nodes.</p>
+
+<p>Each node on the network is identified by a cryptographic public key and, in our <a href="implementation.html">current experimental implementation</a>, stable IPv6 addresses are generated from this key. This allows all IPv6-supporting applications to operate over Ruvchain largely without modification. The address is fully mobile and stays with the node as it moves around the network.</p>
+
+<p>Ruvchain’s design means that it is well suited towards truly ad-hoc wireless mesh networks which many other existing routing protocols struggle with.</p>
+
+<h3 id="what-are-the-problems-today">What are the problems today?</h3>
+
+<p>The Internet as we know it today doesn’t conform to a well-defined topology. This has largely happened over time - as the Internet has grown, more and more networks have been “bolted together” with peering arrangements between service providers. The lack of defined topology gives us some unavoidable problems:</p>
+
+<ol>
+  <li>The routing tables that hold a “map” of the Internet are huge and inefficient, as every provider has to relay information about IP prefixes belonging to all other providers</li>
+  <li>There isn’t really any way for a computer to know where it is located on the Internet relative to anything else — most machines are only aware of a “default gateway”</li>
+  <li>It’s difficult to examine where a packet will go on its journey from source to destination without actually sending it</li>
+</ol>
+
+<p>These problems have been somewhat mitigated (but not really solved) through centralisation - rather than your computers at home holding a copy of the global routing table, your service provider does so on your behalf. Your computers and network devices are configured just to “send traffic upstream” and to let your provider decide where it goes from there. This leaves you entirely at the mercy of your ISP who can redirect your traffic anywhere they like and to inspect, manipulate or intercept it.</p>
+
+<p>ISP networks are also typically structured in design and often hierarchical in nature, and as a result, many existing routing protocols have been designed with this in mind. Some optimisations such as prefix aggregation are used to try and reduce the number of routing entries that a provider must send out into the world. These protocols are usually not suitable for use in a network where the topology is not well defined or changes frequently — a wireless mesh network, for example, therefore it has been very difficult in the past for communities to build their own wireless mesh infrastructure on an ad-hoc basis.</p>
+
+<h3 id="what-does-ruvchain-do-differently">What does Ruvchain do differently?</h3>
+
+<p>Ruvchain takes a very different approach to sharing routing knowledge. Rather than distributing address ranges as paths through centrally assigned autonomous systems, Ruvchain instead builds up a single distributed global network topology.</p>
+
+<p>A spanning tree is used to provide synchronisation and to allow nodes to allocate themselves a set of tree coordinates, which are used to exchange and establish bootstrap and path setup messages. Nodes then exchange bloom filters which contain information about which keyspace neighbours are reachable through each node. Intermediate nodes then populate their routing tables with these paths, enabling nodes to forward packets closer to their destination public key.</p>
+
+<p>In addition, nodes can pathfind using the spanning tree routing to establish a path that is likely shorter than the path through keyspace. The typically more direct source route will continue to be used for as long as it is available and will fall back to keyspace routing if the tree-routed path breaks.</p>
+
+<p>Cryptographic signatures are used to secure protocol messages against tampering or forgery.</p>
+
+<h3 id="what-are-the-benefits">What are the benefits?</h3>
+
+<p>There are a number of benefits to a routing scheme such as this:</p>
+
+<ol>
+  <li>Devices need to only maintain a comparatively small amount of state in order to function and to be able to forward packets — there is no need for any Ruvchain node to maintain “full routing tables” like in BGP, and most nodes only have a handful of routing table entries in total</li>
+  <li>Paths are discovered and built through the network automatically, so manual configuration of routing entries is not required — the only configuration needed is the peering connections between nodes themselves</li>
+  <li>The network can setup and tear down paths quickly without needing to discard all routing state, which helps significantly in handling node mobility events without dropping many packets if at all</li>
+  <li>We can bridge reliable/static networks very easily with dynamic/non-static networks without needing to flood large amounts of state</li>
+  <li>Networks automatically form when any two or more Ruvchain nodes are connected to each other, even if those connections are entirely ad-hoc in nature, which allows building true wireless mesh networks</li>
+  <li>Sparse routing knowledge and only small amounts of protocol traffic should mean that Ruvchain is able to efficiently scale to very large networks</li>
+</ol>
+
+<h3 id="what-is-the-status-of-the-project">What is the status of the project?</h3>
+
+<p>Ruvchain is currently an alpha project, early in development but actively maintained. Our expectation is that a future “beta” quality release should know enough to be compatible in the face of wire format changes, and reasonably feature complete. A “stable” 1.0 release, if it ever happens, would probably be feature complete, with no expectation of future wire format changes, and free of known critical bugs.</p>
+
+<p>The true goal of this project is to test the scalability of the Ruvchain routing scheme and we are doing so with our <a href="implementation.html">overlay network implementation</a>. We need as many participants to run and test the software as possible so that we can study the behaviour of the network as it grows. We’ve done our best to support <a href="installation.html">as many platforms as possible</a> and have a number of <a href="https://github.com/ruvcoindev/public-peers">public peers</a> that you can connect to in order to join the network, so please feel free to experiment. That said, we don’t recommend running mission critical or life-or-death workloads over Ruvchain yet — there may be failure modes that we don’t yet know about.</p>
+
+<p>The project is likely to reach a number of possible outcomes:</p>
+
+<ol>
+  <li>The project may reach a reasonably stable state but never attract a large enough number of users</li>
+  <li>The project may attract a large enough number of users but reveal inherent design flaws in the process (a learning exercise for a future project or protocol version perhaps)</li>
+  <li>The project may end up working perfectly even as the network grows, in which case it will become worthwhile to look at writing better-optimised implementations and/or moving the important parts into other projects</li>
+</ol>
+
+<h3 id="how-does-ruvchain-compare-to-other-projects">How does Ruvchain compare to other projects?</h3>
+
+<p>The Ruvchain Network often attract comparisons with other projects attempting to create anonymous overlays, such as Tor, I2P, Lokinet and others. These projects are very different to Ruvchain, in part because they are attempting to provide anonymity, which Ruvchain does not, and in part because they are intentionally overlay-by-design rather than by convenience. Any anonymity or pseudonymity that can occur with the Ruvchain testbed network is purely coincidental and should not be relied upon.</p>
+
+<p>Ruvchain is frequently compared with VPN projects such as Wireguard, Tailscale, Nebula and Zerotier. Although the Ruvchain Network can be used as a kind of point-to-point VPN if appropriately configured, it is not a primary goal of ours to provide VPN tunnelling.</p>
+
+<p>We do not see Ruvchain as being in competition with these projects as they are attempting to solve a different set of problems.</p>
+
+<p>The Ruvchain Network does not natively provide access to the public Internet or to other networks, although it can be achieved with proxies or other tunnelling solutions.</p>
+
+    </div>
+    
+
+</body>
+
+</html>
